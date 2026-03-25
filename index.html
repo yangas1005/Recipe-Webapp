@@ -134,8 +134,17 @@
     </section>
 
     <section class="section" id="browseSection">
-      <div class="section-head"><h3>Browse</h3><span id="filterSummary">Browse library</span></div>
-      <div class="chips" id="chipBar"></div>
+      <div class="section-head"><h3>Filter</h3><span id="filterSummary">Browse library</span></div>
+      <div style="display:grid;gap:10px">
+        <div>
+          <div style="font-size:12px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Cuisine</div>
+          <div class="chips" id="cuisineChipBar"></div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Food</div>
+          <div class="chips" id="foodChipBar"></div>
+        </div>
+      </div>
     </section>
 
     <section class="section" id="recipesSection">
@@ -335,7 +344,8 @@
 
     const searchBox = document.getElementById('searchBox');
     const sortSelect = document.getElementById('sortSelect');
-    const chipBar = document.getElementById('chipBar');
+    const cuisineChipBar = document.getElementById('cuisineChipBar');
+    const foodChipBar = document.getElementById('foodChipBar');
     const searchSuggestions = document.getElementById('searchSuggestions');
     const recipeList = document.getElementById('recipeList');
     const recipeCards = [...document.querySelectorAll('.recipe-card')];
@@ -350,7 +360,8 @@
     const addShoppingBtn = document.getElementById('addShoppingBtn');
     const headerClearBtn = document.getElementById('headerClearBtn');
 
-    let currentFilter = 'all';
+    let currentCuisine = 'all';
+    let currentFood = 'all';
     let currentView = localStorage.getItem(VIEW_KEY) || 'card';
     let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
     let shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || JSON.stringify([
@@ -434,18 +445,23 @@
     }
 
     function buildChips() {
-      const tags = new Set(['All','Favorites']);
-      recipeCards.forEach(card => {
-        (card.dataset.tags || '').split(',').map(s=>s.trim()).filter(Boolean).forEach(t => tags.add(t));
-        (extraTags[card.dataset.id] || []).forEach(t => tags.add(t));
-      });
-      const ordered = ['All','Favorites', ...[...tags].filter(t => !['All','Favorites'].includes(t)).sort()];
-      chipBar.innerHTML = ordered.map(tag => `<button class="chip ${((currentFilter==='all'&&tag==='All')||(currentFilter==='favorite'&&tag==='Favorites')||(currentFilter===tag))?'active':''}" data-filter="${tag==='All'?'all':tag==='Favorites'?'favorite':tag}">${tag}</button>`).join('');
-      [...chipBar.querySelectorAll('.chip')].forEach(chip => {
+      const cuisineOptions = ['All','Chinese','Japanese','Korean','Italian','Hawaiian-inspired','Thai-inspired'];
+      const foodOptions = ['All','Chicken','Seafood','Soup','Drink','Wellness Drink','Smoothie','Dip','Sauce','Snack','Pasta'];
+
+      cuisineChipBar.innerHTML = cuisineOptions.map(tag => `<button class="chip ${((currentCuisine==='all'&&tag==='All')||(currentCuisine===tag))?'active':''}" data-cuisine="${tag==='All'?'all':tag}">${tag}</button>`).join('');
+      foodChipBar.innerHTML = foodOptions.map(tag => `<button class="chip ${((currentFood==='all'&&tag==='All')||(currentFood===tag))?'active':''}" data-food="${tag==='All'?'all':tag}">${tag}</button>`).join('');
+
+      [...cuisineChipBar.querySelectorAll('.chip')].forEach(chip => {
         chip.onclick = () => {
-          [...chipBar.querySelectorAll('.chip')].forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
-          currentFilter = chip.dataset.filter;
+          currentCuisine = chip.dataset.cuisine;
+          buildChips();
+          applyFilters();
+        };
+      });
+      [...foodChipBar.querySelectorAll('.chip')].forEach(chip => {
+        chip.onclick = () => {
+          currentFood = chip.dataset.food;
+          buildChips();
           applyFilters();
         };
       });
@@ -480,10 +496,10 @@
         const id = card.dataset.id;
         const hay = (card.dataset.search + ' ' + card.dataset.title + ' ' + (extraTags[id] || []).join(' ')).toLowerCase();
         const matchesSearch = !q || hay.includes(q);
-        let matchesFilter = currentFilter === 'all';
-        if (currentFilter === 'favorite') matchesFilter = !!favorites[id];
-        else if (!matchesFilter) matchesFilter = hay.includes(currentFilter.toLowerCase()) || (card.dataset.tags || '').toLowerCase().includes(currentFilter.toLowerCase());
-        const show = matchesSearch && matchesFilter;
+        const cardTags = (card.dataset.tags || '').toLowerCase();
+        const matchesCuisine = currentCuisine === 'all' || cardTags.includes(currentCuisine.toLowerCase());
+        const matchesFood = currentFood === 'all' || cardTags.includes(currentFood.toLowerCase()) || hay.includes(currentFood.toLowerCase());
+        const show = matchesSearch && matchesCuisine && matchesFood;
         card.classList.toggle('hidden', !show);
         if (show) visibleCount++;
       });
@@ -497,7 +513,10 @@
         return b.dataset.saved.localeCompare(a.dataset.saved);
       });
       visibleCards.forEach(card => recipeList.appendChild(card));
-      filterSummary.textContent = `${visibleCount} shown`;
+      const parts = [];
+      if (currentCuisine !== 'all') parts.push(currentCuisine);
+      if (currentFood !== 'all') parts.push(currentFood);
+      filterSummary.textContent = parts.length ? `${parts.join(' · ')} · ${visibleCount} shown` : `${visibleCount} shown`; 
       favoritesCount.textContent = Object.values(favorites).filter(Boolean).length;
       recipeCount.textContent = recipeCards.length;
     }
@@ -554,16 +573,19 @@
         item.classList.add('active');
         const view = item.dataset.view;
         if (view === 'favorites') {
-          currentFilter = 'favorite';
+          currentFood = 'all';
+          currentCuisine = 'all';
           buildChips();
-          applyFilters();
+          recipeCards.forEach(card => card.classList.toggle('hidden', !favorites[card.dataset.id]));
+          filterSummary.textContent = 'Favorites';
           window.scrollTo({top: document.getElementById('recipesSection').offsetTop - 10, behavior:'smooth'});
         } else if (view === 'list') {
           window.scrollTo({top: document.getElementById('toolsSection').offsetTop - 10, behavior:'smooth'});
         } else if (view === 'collections') {
           window.scrollTo({top: document.getElementById('browseSection').offsetTop - 10, behavior:'smooth'});
         } else {
-          currentFilter = 'all';
+          currentCuisine = 'all';
+          currentFood = 'all';
           buildChips();
           applyFilters();
           window.scrollTo({top: 0, behavior:'smooth'});
