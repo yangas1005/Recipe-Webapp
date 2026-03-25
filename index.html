@@ -197,12 +197,12 @@
     </section>
 
     <section class="section" id="toolsSection">
-      <div class="section-head"><h3>Shopping list</h3><span>Editable</span></div>
+      <div class="section-head"><h3>Shopping list</h3><button id="headerClearBtn" class="chip" style="padding:8px 12px;font-size:12px;">Clear List</button></div>
       <div class="list-card">
         <div id="shoppingList"></div>
         <div class="shopping-add">
           <input id="shoppingInput" type="text" placeholder="Shopping list is managed from recipes" disabled />
-          <button id="addShoppingBtn">Clear List</button>
+          <button id="addShoppingBtn" style="display:none">Clear List</button>
         </div>
       </div>
       <div style="height:12px"></div>
@@ -236,6 +236,7 @@
     const shoppingListEl = document.getElementById('shoppingList');
     const shoppingInput = document.getElementById('shoppingInput');
     const addShoppingBtn = document.getElementById('addShoppingBtn');
+    const headerClearBtn = document.getElementById('headerClearBtn');
 
     let currentFilter = 'all';
     let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
@@ -375,11 +376,13 @@
       };
     });
 
-    addShoppingBtn.onclick = () => {
+    const clearShopping = () => {
       shopping = [];
       saveState();
       renderShopping();
     };
+    addShoppingBtn.onclick = clearShopping;
+    headerClearBtn.onclick = clearShopping;
 
     navItems.forEach(item => {
       item.onclick = () => {
