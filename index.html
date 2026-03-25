@@ -30,7 +30,7 @@
     .viewer-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
     .viewer-frame{width:100%;height:260px;border:1px solid var(--line);border-radius:18px;background:#f9fafb}
     .shopping-add{display:flex;gap:8px;margin-top:12px}.shopping-add input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.shopping-add button{padding:10px 12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-    .list-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.list-row:first-child{border-top:none;padding-top:0}.list-row button{border:none;background:none;color:var(--accent);font-weight:700;cursor:pointer}
+    .list-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.list-row:first-child{border-top:none;padding-top:0}.list-row button{border:none;background:none;color:var(--accent);font-weight:700;cursor:pointer}.list-row.done .item-text{text-decoration:line-through;color:#9ca3af}
     .hidden{display:none !important}
     .bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(448px,calc(100% - 20px));background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border:1px solid rgba(229,231,235,.85);border-radius:24px;box-shadow:0 12px 30px rgba(17,24,39,.1);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px;z-index:10}
     .nav-item{background:none;border:none;text-align:center;font-size:11px;color:var(--muted);font-weight:700;cursor:pointer}.nav-item .icon{display:block;font-size:18px;margin-bottom:4px}.nav-item.active{color:var(--accent)}
@@ -240,7 +240,7 @@
     let currentFilter = 'all';
     let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
     let shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || JSON.stringify([
-      'bok choy','soft tofu','century eggs','salted egg','dried scallops','ginger','chicken thighs','lap cheong'
+      {text:'bok choy', done:false},{text:'soft tofu', done:false},{text:'century eggs', done:false},{text:'salted egg', done:false},{text:'dried scallops', done:false},{text:'ginger', done:false},{text:'chicken thighs', done:false},{text:'lap cheong', done:false}
     ]));
     let extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
 
@@ -252,11 +252,20 @@
 
     function renderShopping() {
       shoppingListEl.innerHTML = shopping.map((item, i) => `
-        <div class="list-row">
-          <div>${item}</div>
+        <div class="list-row ${item.done ? 'done' : ''}">
+          <input type="checkbox" data-toggle-shopping="${i}" ${item.done ? 'checked' : ''} />
+          <div class="item-text">${item.text}</div>
           <button data-remove-shopping="${i}">Remove</button>
         </div>
       `).join('') || '<div class="muted">No shopping items yet.</div>';
+      document.querySelectorAll('[data-toggle-shopping]').forEach(box => {
+        box.onchange = () => {
+          const idx = Number(box.dataset.toggleShopping);
+          shopping[idx].done = box.checked;
+          saveState();
+          renderShopping();
+        };
+      });
       document.querySelectorAll('[data-remove-shopping]').forEach(btn => {
         btn.onclick = () => {
           shopping.splice(Number(btn.dataset.removeShopping), 1);
@@ -368,7 +377,7 @@
     addShoppingBtn.onclick = () => {
       const value = shoppingInput.value.trim();
       if (!value) return;
-      shopping.push(value);
+      shopping.push({text:value, done:false});
       shoppingInput.value = '';
       saveState();
       renderShopping();
