@@ -32,6 +32,7 @@
     .shopping-add{display:flex;gap:8px;margin-top:12px}.shopping-add input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.shopping-add button{padding:10px 12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
     .list-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.list-row:first-child{border-top:none;padding-top:0}.list-row button{border:none;background:none;color:var(--accent);font-weight:700;cursor:pointer}.list-row.done .item-text{text-decoration:line-through;color:#9ca3af}
     .hidden{display:none !important}
+    .suggestion{padding:8px 6px;border-top:1px solid var(--line);font-size:14px;cursor:pointer}.suggestion:first-child{border-top:none}.suggestion strong{color:var(--accent)}
     .bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(448px,calc(100% - 20px));background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border:1px solid rgba(229,231,235,.85);border-radius:24px;box-shadow:0 12px 30px rgba(17,24,39,.1);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px;z-index:10}
     .nav-item{background:none;border:none;text-align:center;font-size:11px;color:var(--muted);font-weight:700;cursor:pointer}.nav-item .icon{display:block;font-size:18px;margin-bottom:4px}.nav-item.active{color:var(--accent)}
   </style>
@@ -50,26 +51,13 @@
           <option value="title-desc">Z–A</option>
         </select>
       </div>
-
-      <div class="hero-card">
-        <div class="eyebrow">Featured workflow</div>
-        <h2>Send me a reel. I’ll save the recipe.</h2>
-        <p>This cookbook is built around your real workflow: you send me recipe links, I extract the details, and the app grows automatically.</p>
-        <div class="hero-badge"><strong id="recipeCount">5</strong> recipes</div>
-      </div>
     </div>
+    </div>
+      <div id="searchSuggestions" class="card hidden" style="margin-top:12px;padding:12px 14px;border-radius:18px;"></div>
 
     <section class="section" id="browseSection">
       <div class="section-head"><h3>Browse</h3><span id="filterSummary">View all</span></div>
-      <div class="chips" id="chipBar">
-        <button class="chip active" data-filter="all">All</button>
-        <button class="chip" data-filter="Soup">Soup</button>
-        <button class="chip" data-filter="Chicken">Chicken</button>
-        <button class="chip" data-filter="Drink">Drinks</button>
-        <button class="chip" data-filter="Chinese">Chinese</button>
-        <button class="chip" data-filter="Cantonese">Cantonese</button>
-        <button class="chip" data-filter="favorite">Favorites</button>
-      </div>
+      <div class="chips" id="chipBar"></div>
     </section>
 
     <section class="section" id="statsSection">
@@ -248,7 +236,8 @@
 
     const searchBox = document.getElementById('searchBox');
     const sortSelect = document.getElementById('sortSelect');
-    const chips = [...document.querySelectorAll('.chip')];
+    const chipBar = document.getElementById('chipBar');
+    const searchSuggestions = document.getElementById('searchSuggestions');
     const recipeList = document.getElementById('recipeList');
     const recipeCards = [...document.querySelectorAll('.recipe-card')];
     const favoritesCount = document.getElementById('favoritesCount');
@@ -332,6 +321,43 @@
       });
     }
 
+    function buildChips() {
+      const tags = new Set(['All','Favorites']);
+      recipeCards.forEach(card => {
+        (card.dataset.tags || '').split(',').map(s=>s.trim()).filter(Boolean).forEach(t => tags.add(t));
+        ((extraTags[card.dataset.id]||[])).forEach(t => tags.add(t));
+      });
+      const ordered = ['All','Favorites', ...[...tags].filter(t => !['All','Favorites'].includes(t)).sort()];
+      chipBar.innerHTML = ordered.map(tag => `<button class="chip ${((currentFilter==='all'&&tag==='All')||(currentFilter==='favorite'&&tag==='Favorites')||(currentFilter===tag))?'active':''}" data-filter="${tag==='All'?'all':tag==='Favorites'?'favorite':tag}">${tag}</button>`).join('');
+      [...chipBar.querySelectorAll('.chip')].forEach(chip => {
+        chip.onclick = () => {
+          [...chipBar.querySelectorAll('.chip')].forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentFilter = chip.dataset.filter;
+          applyFilters();
+        };
+      });
+    }
+
+    function renderSuggestions() {
+      const q = searchBox.value.toLowerCase().trim();
+      if (!q) { searchSuggestions.classList.add('hidden'); searchSuggestions.innerHTML=''; return; }
+      const matches = recipeCards.filter(card => {
+        const id = card.dataset.id;
+        const hay = (card.dataset.title + ' ' + card.dataset.search + ' ' + (extraTags[id]||[]).join(' ')).toLowerCase();
+        return hay.includes(q);
+      }).slice(0,5);
+      if (!matches.length) { searchSuggestions.classList.add('hidden'); searchSuggestions.innerHTML=''; return; }
+      searchSuggestions.innerHTML = matches.map(card => `<div class="suggestion" data-jump="${card.dataset.id}"><strong>${card.dataset.title}</strong><div class="muted">${card.dataset.tags || ''}</div></div>`).join('');
+      searchSuggestions.classList.remove('hidden');
+      [...searchSuggestions.querySelectorAll('[data-jump]')].forEach(el => {
+        el.onclick = () => {
+          const card = recipeCards.find(c => c.dataset.id === el.dataset.jump);
+          if (card) { card.scrollIntoView({behavior:'smooth', block:'start'}); }
+        };
+      });
+    }
+
     function applyFilters() {
       const q = searchBox.value.toLowerCase().trim();
       let visibleCount = 0;
@@ -361,16 +387,7 @@
       recipeCount.textContent = recipeCards.length;
     }
 
-    chips.forEach(chip => {
-      chip.onclick = () => {
-        chips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        currentFilter = chip.dataset.filter;
-        applyFilters();
-      };
-    });
-
-    searchBox.addEventListener('input', applyFilters);
+    searchBox.addEventListener('input', () => { renderSuggestions(); applyFilters(); });
     sortSelect.addEventListener('change', applyFilters);
 
     recipeCards.forEach(card => {
@@ -413,7 +430,7 @@
         const view = item.dataset.view;
         if (view === 'favorites') {
           currentFilter = 'favorite';
-          chips.forEach(c => c.classList.toggle('active', c.dataset.filter === 'favorite'));
+          buildChips();
           applyFilters();
           window.scrollTo({top: document.getElementById('recipesSection').offsetTop - 10, behavior:'smooth'});
         } else if (view === 'list') {
@@ -422,7 +439,7 @@
           window.scrollTo({top: document.getElementById('browseSection').offsetTop - 10, behavior:'smooth'});
         } else {
           currentFilter = 'all';
-          chips.forEach(c => c.classList.toggle('active', c.dataset.filter === 'all'));
+          buildChips();
           applyFilters();
           window.scrollTo({top: 0, behavior:'smooth'});
         }
@@ -435,10 +452,14 @@
       extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
       recipeCards.forEach(card => { updateFavoriteUI(card); renderTags(card); });
       renderShopping();
+      buildChips();
+      renderSuggestions();
       applyFilters();
     });
 
     renderShopping();
+    buildChips();
+    renderSuggestions();
     applyFilters();
   </script>
 </body>
