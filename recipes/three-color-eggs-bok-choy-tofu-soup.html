@@ -28,9 +28,11 @@
     const KEY='cookbookShoppingListV1';
     document.getElementById('addBtn').onclick=()=>{
       const items=[...document.querySelectorAll('#ingredients li')].map(li=>li.textContent.trim()).filter(Boolean);
-      const list=JSON.parse(localStorage.getItem(KEY)||'[]');
+      let list=JSON.parse(localStorage.getItem(KEY)||'[]');
+      list = list.map(item => typeof item === 'string' ? {text:item, done:false} : item);
+      const existing = new Set(list.map(item => item.text));
       const before=list.length;
-      items.forEach(i=>{ if(!list.includes(i)) list.push(i); });
+      items.forEach(i=>{ if(!existing.has(i)) { list.push({text:i, done:false}); existing.add(i); } });
       localStorage.setItem(KEY, JSON.stringify(list));
       const added=list.length-before;
       document.getElementById('msg').textContent=added?`Added ${added} ingredient${added>1?'s':''} to shopping list.`:'All ingredients were already in your shopping list.';

@@ -242,6 +242,7 @@
     let shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || JSON.stringify([
       {text:'bok choy', done:false},{text:'soft tofu', done:false},{text:'century eggs', done:false},{text:'salted egg', done:false},{text:'dried scallops', done:false},{text:'ginger', done:false},{text:'chicken thighs', done:false},{text:'lap cheong', done:false}
     ]));
+    shopping = shopping.map(item => typeof item === 'string' ? {text:item, done:false} : item);
     let extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
 
     function saveState() {
@@ -404,6 +405,15 @@
           window.scrollTo({top: 0, behavior:'smooth'});
         }
       };
+    });
+
+    window.addEventListener('pageshow', () => {
+      shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || '[]').map(item => typeof item === 'string' ? {text:item, done:false} : item);
+      favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
+      extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
+      recipeCards.forEach(card => { updateFavoriteUI(card); renderTags(card); });
+      renderShopping();
+      applyFilters();
     });
 
     renderShopping();
