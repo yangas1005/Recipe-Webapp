@@ -42,6 +42,39 @@
     .recipe-list{display:grid;gap:14px}
     .recipe-card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
     .recipe-card img{width:100%;height:220px;object-fit:cover;display:block;background:#f3f4f6}
+    .view-switcher{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+    .view-btn{white-space:nowrap;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:#374151;cursor:pointer;box-shadow:var(--shadow)}
+    .view-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+    .recipe-list.view-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .recipe-list.view-compact{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .recipe-list.view-list{grid-template-columns:1fr;gap:10px}
+    .recipe-list.view-grid .recipe-card,.recipe-list.view-compact .recipe-card,.recipe-list.view-list .recipe-card{border-radius:20px}
+    .recipe-list.view-grid .recipe-card img{height:132px}
+    .recipe-list.view-compact .recipe-card img{height:96px}
+    .recipe-list.view-grid .recipe-body{padding:12px}
+    .recipe-list.view-compact .recipe-body{padding:10px}
+    .recipe-list.view-grid .recipe-title{font-size:16px;margin-bottom:6px}
+    .recipe-list.view-compact .recipe-title{font-size:14px;margin-bottom:4px}
+    .recipe-list.view-grid .meta,.recipe-list.view-grid .desc,.recipe-list.view-grid .tag-editor,.recipe-list.view-grid .actions .favorite-toggle{font-size:12px}
+    .recipe-list.view-compact .meta,.recipe-list.view-compact .desc{font-size:11px;line-height:1.35}
+    .recipe-list.view-grid .desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:10px}
+    .recipe-list.view-compact .desc{display:none}
+    .recipe-list.view-grid .pills,.recipe-list.view-compact .pills{gap:6px;margin-bottom:8px}
+    .recipe-list.view-grid .pill,.recipe-list.view-compact .pill{font-size:10px;padding:6px 8px}
+    .recipe-list.view-compact .pills .pill:nth-child(n+3){display:none}
+    .recipe-list.view-compact .tag-editor,.recipe-list.view-compact .actions .favorite-toggle,.recipe-list.view-compact .meta{display:none}
+    .recipe-list.view-compact .actions{display:block}
+    .recipe-list.view-compact .actions .btn.primary{display:block;width:100%;padding:10px 12px;font-size:12px}
+    .recipe-list.view-list .recipe-card{display:grid;grid-template-columns:84px 1fr;align-items:stretch}
+    .recipe-list.view-list .recipe-card > a{display:block;height:100%}
+    .recipe-list.view-list .recipe-card img{width:84px;height:100%;min-height:104px}
+    .recipe-list.view-list .recipe-body{padding:12px}
+    .recipe-list.view-list .recipe-title{font-size:16px;margin-bottom:6px}
+    .recipe-list.view-list .desc{display:none}
+    .recipe-list.view-list .pills{display:none}
+    .recipe-list.view-list .tag-editor{display:none}
+    .recipe-list.view-list .actions{gap:8px}
+    .recipe-list.view-list .btn{padding:9px 10px;font-size:12px;border-radius:12px}
     .recipe-body{padding:16px}
     .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
     .pill{padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em}
@@ -106,7 +139,13 @@
     </section>
 
     <section class="section" id="recipesSection">
-      <div class="section-head"><h3>Saved recipes</h3><span>Tap controls below</span></div>
+      <div class="section-head"><h3>Saved recipes</h3><span id="viewSummary">Card view</span></div>
+      <div class="view-switcher" id="viewSwitcher">
+        <button class="view-btn active" data-view="card">Cards</button>
+        <button class="view-btn" data-view="grid">Grid</button>
+        <button class="view-btn" data-view="compact">Compact</button>
+        <button class="view-btn" data-view="list">List</button>
+      </div>
       <div class="recipe-list" id="recipeList">
         
         
@@ -292,6 +331,7 @@
     const FAVORITES_KEY = 'cookbookFavoritesV1';
     const SHOPPING_KEY = 'cookbookShoppingListV1';
     const TAGS_KEY = 'cookbookTagsV1';
+    const VIEW_KEY = 'cookbookViewModeV1';
 
     const searchBox = document.getElementById('searchBox');
     const sortSelect = document.getElementById('sortSelect');
@@ -302,6 +342,8 @@
     const favoritesCount = document.getElementById('favoritesCount');
     const recipeCount = document.getElementById('recipeCount');
     const filterSummary = document.getElementById('filterSummary');
+    const viewSummary = document.getElementById('viewSummary');
+    const viewSwitcher = document.getElementById('viewSwitcher');
     const navItems = [...document.querySelectorAll('.nav-item')];
     const shoppingListEl = document.getElementById('shoppingList');
     const shoppingInput = document.getElementById('shoppingInput');
@@ -309,6 +351,7 @@
     const headerClearBtn = document.getElementById('headerClearBtn');
 
     let currentFilter = 'all';
+    let currentView = localStorage.getItem(VIEW_KEY) || 'card';
     let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
     let shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || JSON.stringify([
       {text:'bok choy', done:false},{text:'soft tofu', done:false},{text:'century eggs', done:false},{text:'salted egg', done:false},{text:'dried scallops', done:false},{text:'ginger', done:false},{text:'chicken thighs', done:false},{text:'lap cheong', done:false}
@@ -319,6 +362,17 @@
       localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
       localStorage.setItem(SHOPPING_KEY, JSON.stringify(shopping));
       localStorage.setItem(TAGS_KEY, JSON.stringify(extraTags));
+    }
+
+    function applyViewMode() {
+      recipeList.classList.remove('view-grid','view-compact','view-list');
+      if (currentView === 'grid') recipeList.classList.add('view-grid');
+      if (currentView === 'compact') recipeList.classList.add('view-compact');
+      if (currentView === 'list') recipeList.classList.add('view-list');
+      [...viewSwitcher.querySelectorAll('.view-btn')].forEach(btn => btn.classList.toggle('active', btn.dataset.view === currentView));
+      const labels = { card: 'Card view', grid: '2-up grid', compact: 'Compact view', list: 'List view' };
+      viewSummary.textContent = labels[currentView] || 'Card view';
+      localStorage.setItem(VIEW_KEY, currentView);
     }
 
     function renderShopping() {
@@ -451,6 +505,13 @@
     searchBox.addEventListener('input', () => { renderSuggestions(); applyFilters(); });
     sortSelect.addEventListener('change', applyFilters);
 
+    [...viewSwitcher.querySelectorAll('.view-btn')].forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentView = btn.dataset.view;
+        applyViewMode();
+      });
+    });
+
     recipeCards.forEach(card => {
       updateFavoriteUI(card);
       renderTags(card);
@@ -518,12 +579,14 @@
       renderShopping();
       buildChips();
       renderSuggestions();
+      applyViewMode();
       applyFilters();
     });
 
     renderShopping();
     buildChips();
     renderSuggestions();
+    applyViewMode();
     applyFilters();
   </script>
 </body>
