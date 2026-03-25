@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anti-Cancer Juice</title>
   <style>
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,system-ui,sans-serif;background:#faf7f2;color:#1f2937} .wrap{max-width:900px;margin:0 auto;padding:24px 18px 50px} .hero{background:#fff;border:1px solid #e5e7eb;border-radius:24px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.05)} img{width:100%;display:block;max-height:460px;object-fit:cover} .content{padding:22px} h1{margin:0 0 10px;font-size:34px} .meta{color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:18px} h2{margin-top:22px;font-size:22px} ul{line-height:1.8} a{color:#ea580c;text-decoration:none;font-weight:700} a:hover{text-decoration:underline} .btn{display:inline-block;margin-top:14px;padding:12px 14px;border:none;border-radius:14px;background:#111827;color:#fff;font-weight:800;cursor:pointer} .msg{margin-top:10px;font-size:14px;color:#166534}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,system-ui,sans-serif;background:#faf7f2;color:#1f2937} .wrap{max-width:900px;margin:0 auto;padding:24px 18px 50px} .hero{background:#fff;border:1px solid #e5e7eb;border-radius:24px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.05)} img{width:100%;display:block;max-height:460px;object-fit:cover} .content{padding:22px} h1{margin:0 0 10px;font-size:34px} .meta{color:#6b7280;font-size:14px;line-height:1.6;margin-bottom:18px} h2{margin-top:22px;font-size:22px} ul{line-height:1.8} a{color:#ea580c;text-decoration:none;font-weight:700} a:hover{text-decoration:underline} .btn{display:inline-block;margin-top:14px;padding:12px 14px;border:none;border-radius:14px;background:#111827;color:#fff;font-weight:800;cursor:pointer} .msg{margin-top:10px;font-size:14px;color:#166534} .tag-panel{margin-top:20px;padding-top:18px;border-top:1px solid #e5e7eb} .tag-row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px} .tag-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:999px;background:#f3f4f6;font-size:13px;font-weight:700;color:#374151} .tag-pill button{border:none;background:none;color:#ea580c;font-weight:800;cursor:pointer;padding:0} .tag-add{display:flex;gap:8px;flex-wrap:wrap} .tag-add input{flex:1;min-width:180px;padding:10px 12px;border:1px solid #e5e7eb;border-radius:12px} .tag-add button{padding:10px 12px;border:none;border-radius:12px;background:#ea580c;color:#fff;font-weight:700;cursor:pointer}
   </style>
 </head>
 <body>
@@ -23,11 +23,22 @@
         <p>About 32–40 ounces daily.</p>
         <h2>Notes</h2>
         <p>The caption frames this as a high-volume daily juice for sipping through the afternoon and says it can help reduce cravings. It also highlights beet, carrot, celery, broccoli stalk, lemon, ginger, and pineapple as the key produce base.</p>
+
+        <div class="tag-panel">
+          <h2>Custom Tags</h2>
+          <div id="recipeTags" class="tag-row"></div>
+          <div class="tag-add">
+            <input id="tagInput" type="text" placeholder="Add a custom tag" />
+            <button id="addTagBtn" type="button">Add Tag</button>
+          </div>
+        </div>
       </div>
     </article>
   </div>
   <script>
     const KEY='cookbookShoppingListV1';
+    const TAGS_KEY='cookbookTagsV1';
+    const recipeSlug = location.pathname.split('/').pop().replace('.html','');
     document.getElementById('addBtn').onclick=()=>{
       const items=[...document.querySelectorAll('#ingredients li')].map(li=>li.textContent.trim()).filter(Boolean);
       let list=JSON.parse(localStorage.getItem(KEY)||'[]');
@@ -39,6 +50,50 @@
       const added=list.length-before;
       document.getElementById('msg').textContent=added?`Added ${added} ingredient${added>1?'s':''} to shopping list.`:'All ingredients were already in your shopping list.';
     };
+
+    function loadTags() {
+      const all = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
+      return all[recipeSlug] || [];
+    }
+
+    function saveTags(tags) {
+      const all = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
+      all[recipeSlug] = tags;
+      localStorage.setItem(TAGS_KEY, JSON.stringify(all));
+    }
+
+    function renderTags() {
+      const wrap = document.getElementById('recipeTags');
+      if (!wrap) return;
+      const tags = loadTags();
+      wrap.innerHTML = tags.length ? tags.map((tag, i) => `<span class="tag-pill">${tag}<button data-remove-tag="${i}">×</button></span>`).join('') : '<span style="color:#6b7280;font-size:14px;">No custom tags yet.</span>';
+      wrap.querySelectorAll('[data-remove-tag]').forEach(btn => {
+        btn.onclick = () => {
+          const next = loadTags();
+          next.splice(Number(btn.dataset.removeTag), 1);
+          saveTags(next);
+          renderTags();
+        };
+      });
+    }
+
+    const addTagBtn = document.getElementById('addTagBtn');
+    const addTagInput = document.getElementById('tagInput');
+    if (addTagBtn && addTagInput) {
+      addTagBtn.onclick = () => {
+        const value = addTagInput.value.trim();
+        if (!value) return;
+        const tags = loadTags();
+        if (!tags.includes(value)) {
+          tags.push(value);
+          saveTags(tags);
+          renderTags();
+        }
+        addTagInput.value = '';
+      };
+    }
+
+    renderTags();
   </script>
 </body>
 </html>
