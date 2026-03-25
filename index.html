@@ -340,6 +340,7 @@
     const FAVORITES_KEY = 'cookbookFavoritesV1';
     const SHOPPING_KEY = 'cookbookShoppingListV1';
     const TAGS_KEY = 'cookbookTagsV1';
+    const DEFAULT_TAGS_KEY = 'cookbookDefaultTagsV1';
     const VIEW_KEY = 'cookbookViewModeV1';
 
     const searchBox = document.getElementById('searchBox');
@@ -368,11 +369,13 @@
       {text:'bok choy', done:false},{text:'soft tofu', done:false},{text:'century eggs', done:false},{text:'salted egg', done:false},{text:'dried scallops', done:false},{text:'ginger', done:false},{text:'chicken thighs', done:false},{text:'lap cheong', done:false}
     ])).map(item => typeof item === 'string' ? {text:item, done:false} : item);
     let extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
+    let defaultTags = JSON.parse(localStorage.getItem(DEFAULT_TAGS_KEY) || '{}');
 
     function saveState() {
       localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
       localStorage.setItem(SHOPPING_KEY, JSON.stringify(shopping));
       localStorage.setItem(TAGS_KEY, JSON.stringify(extraTags));
+      localStorage.setItem(DEFAULT_TAGS_KEY, JSON.stringify(defaultTags));
     }
 
     function applyViewMode() {
@@ -411,6 +414,13 @@
       });
     }
 
+    function getActiveDefaultTags(card) {
+      const id = card.dataset.id;
+      const stored = defaultTags[id];
+      if (stored && Array.isArray(stored)) return stored;
+      return (card.dataset.tags || '').split(',').map(s => s.trim()).filter(Boolean);
+    }
+
     function updateFavoriteUI(card) {
       const id = card.dataset.id;
       const btn = card.querySelector('.favorite-toggle');
@@ -435,7 +445,19 @@
     function renderTags(card) {
       const id = card.dataset.id;
       const pills = card.querySelector('.pills');
-      pills.querySelectorAll('.pill.user-tag').forEach(el => el.remove());
+      const existingType = pills.querySelector('.pill.type');
+      const existingStatus = pills.querySelector('.pill.status');
+      const existingFavorite = pills.querySelector('.pill.favorite');
+      pills.innerHTML = '';
+      if (existingType) pills.appendChild(existingType);
+      if (existingStatus) pills.appendChild(existingStatus);
+      if (existingFavorite) pills.appendChild(existingFavorite);
+      getActiveDefaultTags(card).forEach(tag => {
+        const el = document.createElement('div');
+        el.className = 'pill tag default-tag';
+        el.textContent = tag;
+        pills.appendChild(el);
+      });
       (extraTags[id] || []).forEach(tag => {
         const el = document.createElement('div');
         el.className = 'pill tag user-tag';
@@ -496,7 +518,7 @@
         const id = card.dataset.id;
         const hay = (card.dataset.search + ' ' + card.dataset.title + ' ' + (extraTags[id] || []).join(' ')).toLowerCase();
         const matchesSearch = !q || hay.includes(q);
-        const cardTags = (card.dataset.tags || '').toLowerCase();
+        const cardTags = getActiveDefaultTags(card).join(',').toLowerCase();
         const matchesCuisine = currentCuisine === 'all' || cardTags.includes(currentCuisine.toLowerCase());
         const matchesFood = currentFood === 'all' || cardTags.includes(currentFood.toLowerCase()) || hay.includes(currentFood.toLowerCase());
         const show = matchesSearch && matchesCuisine && matchesFood;
@@ -597,6 +619,7 @@
       shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || '[]').map(item => typeof item === 'string' ? {text:item, done:false} : item);
       favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
       extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
+      defaultTags = JSON.parse(localStorage.getItem(DEFAULT_TAGS_KEY) || '{}');
       recipeCards.forEach(card => { updateFavoriteUI(card); renderTags(card); });
       renderShopping();
       buildChips();

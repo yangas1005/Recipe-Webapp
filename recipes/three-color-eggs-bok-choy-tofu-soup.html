@@ -23,10 +23,10 @@
         <p>The caption included the ingredient list but not a full method breakdown. This looks like a comforting Cantonese-style soup built around tofu, bok choy, century egg, salted egg, and dried scallops.</p>
 
         <div class="tag-panel">
-          <h2>Custom Tags</h2>
+          <h2>Edit Tags</h2>
           <div id="recipeTags" class="tag-row"></div>
           <div class="tag-add">
-            <input id="tagInput" type="text" placeholder="Add a custom tag" />
+            <input id="tagInput" type="text" placeholder="Add a tag" />
             <button id="addTagBtn" type="button">Add Tag</button>
           </div>
         </div>
@@ -36,7 +36,9 @@
   <script>
     const KEY='cookbookShoppingListV1';
     const TAGS_KEY='cookbookTagsV1';
+    const DEFAULT_TAGS_KEY='cookbookDefaultTagsV1';
     const recipeSlug = location.pathname.split('/').pop().replace('.html','');
+    const originalDefaultTags = [];
     document.getElementById('addBtn').onclick=()=>{
       const items=[...document.querySelectorAll('#ingredients li')].map(li=>li.textContent.trim()).filter(Boolean);
       let list=JSON.parse(localStorage.getItem(KEY)||'[]');
@@ -60,16 +62,35 @@
       localStorage.setItem(TAGS_KEY, JSON.stringify(all));
     }
 
+    function loadDefaultTags() {
+      const all = JSON.parse(localStorage.getItem(DEFAULT_TAGS_KEY) || '{}');
+      return all[recipeSlug] || [...originalDefaultTags];
+    }
+
+    function saveDefaultTags(tags) {
+      const all = JSON.parse(localStorage.getItem(DEFAULT_TAGS_KEY) || '{}');
+      all[recipeSlug] = tags;
+      localStorage.setItem(DEFAULT_TAGS_KEY, JSON.stringify(all));
+    }
+
     function renderTags() {
       const wrap = document.getElementById('recipeTags');
       if (!wrap) return;
-      const tags = loadTags();
+      const tags = [...loadDefaultTags(), ...loadTags()];
       wrap.innerHTML = tags.length ? tags.map((tag, i) => `<span class="tag-pill">${tag}<button data-remove-tag="${i}">×</button></span>`).join('') : '<span style="color:#6b7280;font-size:14px;">No custom tags yet.</span>';
       wrap.querySelectorAll('[data-remove-tag]').forEach(btn => {
         btn.onclick = () => {
-          const next = loadTags();
-          next.splice(Number(btn.dataset.removeTag), 1);
-          saveTags(next);
+          const defaultCount = loadDefaultTags().length;
+          const idx = Number(btn.dataset.removeTag);
+          if (idx < defaultCount) {
+            const next = loadDefaultTags();
+            next.splice(idx, 1);
+            saveDefaultTags(next);
+          } else {
+            const next = loadTags();
+            next.splice(idx - defaultCount, 1);
+            saveTags(next);
+          }
           renderTags();
         };
       });
@@ -81,8 +102,9 @@
       addTagBtn.onclick = () => {
         const value = addTagInput.value.trim();
         if (!value) return;
+        const defaultTags = loadDefaultTags();
         const tags = loadTags();
-        if (!tags.includes(value)) {
+        if (!defaultTags.includes(value) && !tags.includes(value)) {
           tags.push(value);
           saveTags(tags);
           renderTags();
