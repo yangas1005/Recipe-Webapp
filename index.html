@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tony's Cookbook App</title>
+  <style>
+    :root {
+      --bg:#faf7f2; --card:#ffffff; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb;
+      --accent:#ea580c; --accent2:#b45309; --soft:#fff7ed; --soft2:#fef3c7;
+      --green:#166534; --greenbg:#ecfdf5; --blue:#1d4ed8; --bluebg:#eff6ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fffaf3 0%,#faf7f2 100%);color:var(--ink)}
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:1200px;margin:0 auto;padding:22px 16px 60px}
+    .hero{background:linear-gradient(135deg,#7c2d12 0%,#b45309 55%,#ea580c 100%);color:#fff;border-radius:28px;padding:28px;box-shadow:0 20px 50px rgba(180,83,9,.18)}
+    .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.16em;opacity:.82;margin-bottom:8px}
+    h1{margin:0;font-size:38px;line-height:1.05}.sub{margin-top:12px;max-width:800px;font-size:16px;line-height:1.6;color:rgba(255,255,255,.92)}
+    .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}.stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:14px}.stat .label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;opacity:.75;margin-bottom:7px}.stat .value{font-size:20px;font-weight:800}
+    .controls{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:12px;margin-top:20px}.controls input,.controls select{width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.14);color:#fff}.controls input::placeholder{color:rgba(255,255,255,.8)} .controls select option{color:#111}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:20px}.left,.right{display:grid;gap:18px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 10px 26px rgba(31,41,55,.05)}
+    .title{margin:0 0 14px;font-size:21px}.muted{color:var(--muted)}
+    .recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .recipe-card{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 10px 25px rgba(31,41,55,.05)}
+    .recipe-card img{width:100%;height:220px;object-fit:cover;display:block}.recipe-content{padding:16px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;margin:0 6px 8px 0}.type{background:var(--soft);color:#9a3412}.fav{background:var(--soft2);color:#92400e}.made{background:var(--greenbg);color:var(--green)}.want{background:var(--bluebg);color:var(--blue)}
+    .recipe-title{font-size:22px;font-weight:800;margin-bottom:8px}.meta{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px}.desc{font-size:14px;line-height:1.6;color:#374151;margin-bottom:12px}.actions{display:flex;flex-wrap:wrap;gap:8px}.btn{display:inline-block;padding:10px 12px;border-radius:12px;background:#fff7ed;color:#9a3412;font-weight:700;font-size:13px;border:1px solid #fed7aa}
+    .list{display:grid;gap:10px}.item{padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:#fff}.item strong{display:block;margin-bottom:4px}
+    .shopping li{margin:8px 0}.section-note{font-size:13px;color:var(--muted);margin-top:-6px;margin-bottom:10px}
+    .hidden{display:none}
+    @media (max-width:1000px){.stats,.controls,.grid,.recipe-grid{grid-template-columns:1fr} h1{font-size:32px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Cookbook App v1</div>
+      <h1>Tony’s personal cookbook</h1>
+      <div class="sub">A richer recipe app with browsing, filtering, favorites, a shopping list area, and recipe status tracking. Built to grow as you send more recipes.</div>
+      <div class="stats">
+        <div class="stat"><div class="label">Saved recipes</div><div class="value">2</div></div>
+        <div class="stat"><div class="label">Favorites</div><div class="value">1</div></div>
+        <div class="stat"><div class="label">Want to try</div><div class="value">2</div></div>
+        <div class="stat"><div class="label">Cuisines</div><div class="value">Chinese / Cantonese</div></div>
+      </div>
+      <div class="controls">
+        <input id="searchBox" type="text" placeholder="Search title, ingredient, cuisine, creator..." />
+        <select id="typeFilter">
+          <option value="all">All types</option>
+          <option value="Soup">Soup</option>
+          <option value="Chicken">Chicken</option>
+        </select>
+        <select id="statusFilter">
+          <option value="all">All statuses</option>
+          <option value="want">Want to try</option>
+          <option value="made">Made it</option>
+        </select>
+        <select id="sortBy">
+          <option value="title">Sort by title</option>
+          <option value="saved">Sort by saved date</option>
+          <option value="type">Sort by type</option>
+        </select>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="left">
+        <section class="card">
+          <h2 class="title">Recipe library</h2>
+          <div class="section-note">Tap a recipe card to open the full recipe page.</div>
+          <div class="recipe-grid" id="recipeGrid">
+            <article class="recipe-card" data-title="Three-Color Eggs with Bok Choy & Tofu Soup" data-type="Soup" data-status="want" data-saved="2026-03-23" data-search="three-color eggs bok choy tofu soup cantonese feibaba tofu century egg salted egg scallops ginger">
+              <img src="./recipe-images/three-color-eggs-bok-choy-tofu-soup.jpg" alt="Three-Color Eggs with Bok Choy & Tofu Soup" />
+              <div class="recipe-content">
+                <div class="pill type">Soup</div><div class="pill want">Want to try</div>
+                <div class="recipe-title">Three-Color Eggs with Bok Choy & Tofu Soup</div>
+                <div class="meta">FeiBaBa · Cantonese · Saved 2026-03-23</div>
+                <div class="desc">A comforting Cantonese-style soup with bok choy, soft tofu, century egg, salted egg, regular egg, ginger, broth, and dried scallops.</div>
+                <div class="actions">
+                  <a class="btn" href="./recipes/three-color-eggs-bok-choy-tofu-soup.html">Open recipe</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="recipe-card" data-title="Lap Cheong Steamed Chicken" data-type="Chicken" data-status="want" data-saved="2026-03-23" data-search="lap cheong steamed chicken chinese sharilyn cook.n.plate black fungus shiitake chinese sausage ginger juice">
+              <img src="./recipe-images/lap-cheong-steamed-chicken.jpg" alt="Lap Cheong Steamed Chicken" />
+              <div class="recipe-content">
+                <div class="pill type">Chicken</div><div class="pill fav">Favorite</div><div class="pill want">Want to try</div>
+                <div class="recipe-title">Lap Cheong Steamed Chicken</div>
+                <div class="meta">Sharilyn · Chinese · Saved 2026-03-23</div>
+                <div class="desc">A nostalgic home-style steamed chicken dish using Chinese sausage, black fungus, shiitake mushrooms, ginger juice, and a savory marinade.</div>
+                <div class="actions">
+                  <a class="btn" href="./recipes/lap-cheong-steamed-chicken.html">Open recipe</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+
+      <div class="right">
+        <section class="card">
+          <h2 class="title">Favorites</h2>
+          <div class="list">
+            <div class="item"><strong>Lap Cheong Steamed Chicken</strong><span class="muted">Marked as a favorite starter recipe.</span></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2 class="title">Shopping list</h2>
+          <div class="section-note">Starter combined list from your current saved recipes.</div>
+          <ul class="shopping muted">
+            <li>bok choy</li>
+            <li>soft tofu</li>
+            <li>century eggs</li>
+            <li>salted egg</li>
+            <li>dried scallops</li>
+            <li>ginger</li>
+            <li>boneless chicken thighs</li>
+            <li>Chinese sausage / lap cheong</li>
+            <li>black fungus</li>
+            <li>dried shiitake mushrooms</li>
+            <li>soy sauce</li>
+            <li>oyster sauce</li>
+            <li>sesame oil</li>
+            <li>cornstarch</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2 class="title">How we can grow this</h2>
+          <div class="list">
+            <div class="item"><strong>Next feature</strong><span class="muted">Ingredient filters and cuisine filters</span></div>
+            <div class="item"><strong>Later</strong><span class="muted">Meal planner, pantry view, and “random dinner” picker</span></div>
+            <div class="item"><strong>Workflow</strong><span class="muted">Send me a recipe link and I’ll keep adding it here</span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const grid = document.getElementById('recipeGrid');
+    const searchBox = document.getElementById('searchBox');
+    const typeFilter = document.getElementById('typeFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const sortBy = document.getElementById('sortBy');
+
+    function applyFilters() {
+      const cards = Array.from(grid.children);
+      const q = searchBox.value.toLowerCase().trim();
+      const type = typeFilter.value;
+      const status = statusFilter.value;
+
+      cards.forEach(card => {
+        const hay = (card.dataset.search + ' ' + card.dataset.title).toLowerCase();
+        const matchesSearch = !q || hay.includes(q);
+        const matchesType = type === 'all' || card.dataset.type === type;
+        const matchesStatus = status === 'all' || card.dataset.status === status;
+        card.classList.toggle('hidden', !(matchesSearch && matchesType && matchesStatus));
+      });
+
+      const visible = cards.filter(c => !c.classList.contains('hidden'));
+      visible.sort((a,b) => {
+        const mode = sortBy.value;
+        if (mode === 'saved') return b.dataset.saved.localeCompare(a.dataset.saved) || a.dataset.title.localeCompare(b.dataset.title);
+        if (mode === 'type') return a.dataset.type.localeCompare(b.dataset.type) || a.dataset.title.localeCompare(b.dataset.title);
+        return a.dataset.title.localeCompare(b.dataset.title);
+      });
+      visible.forEach(card => grid.appendChild(card));
+    }
+
+    searchBox.addEventListener('input', applyFilters);
+    typeFilter.addEventListener('change', applyFilters);
+    statusFilter.addEventListener('change', applyFilters);
+    sortBy.addEventListener('change', applyFilters);
+    applyFilters();
+  </script>
+</body>
+</html>
