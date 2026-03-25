@@ -15,26 +15,64 @@
     a{text-decoration:none;color:inherit}
     button,input,select{font:inherit}
     .app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:88px}
-    .top{padding:20px 18px 12px}.hello{font-size:13px;color:var(--muted);margin-bottom:6px}.headline{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:0 0 14px}
-    .search-row{display:grid;grid-template-columns:1fr 120px;gap:10px}.search,.sort{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;font-size:15px;color:var(--ink);width:100%;box-shadow:var(--shadow)}
-    .hero-card{margin-top:16px;background:linear-gradient(135deg,#111827 0%,#1f2937 60%,#374151 100%);border-radius:28px;padding:20px;color:#fff;position:relative;overflow:hidden}.hero-card .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.78;margin-bottom:8px}.hero-card h2{margin:0;font-size:26px;line-height:1.05;max-width:240px}.hero-card p{margin:10px 0 0;max-width:260px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.85)}.hero-badge{position:absolute;right:18px;top:20px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(10px);padding:12px 14px;border-radius:18px;text-align:center}.hero-badge strong{display:block;font-size:20px}
-    .section{padding:8px 18px 0}.section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 0 12px}.section-head h3{margin:0;font-size:20px;letter-spacing:-.02em}.section-head span{font-size:13px;color:var(--accent);font-weight:700}
-    .chips{display:flex;gap:10px;overflow:auto;padding-bottom:4px}.chip{white-space:nowrap;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:#374151;cursor:pointer}.chip.active{background:var(--accent-soft);border-color:#ffd8c9;color:var(--accent)}
-    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow)}.stat .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}.stat .value{font-size:20px;font-weight:800}.stat .sub{font-size:12px;color:var(--muted);margin-top:4px}
-    .recipe-list{display:grid;gap:14px}.recipe-card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}.recipe-card img{width:100%;height:220px;object-fit:cover;display:block}.recipe-body{padding:16px}
-    .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}.pill{padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em}.pill.type{background:var(--accent-soft);color:var(--accent)}.pill.status{background:#eff6ff;color:var(--blue)}.pill.favorite{background:#fef3c7;color:#b45309}.pill.tag{background:#f3f4f6;color:#374151}
-    .recipe-title{font-size:22px;font-weight:800;line-height:1.15;letter-spacing:-.02em;margin-bottom:8px}.meta{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px}.desc{font-size:14px;line-height:1.55;color:#374151;margin-bottom:14px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}.btn{flex:1;padding:12px 14px;border-radius:16px;font-weight:800;text-align:center;font-size:14px;border:1px solid var(--line);background:#fff;cursor:pointer}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.btn.favorite-on{background:#fef3c7;color:#92400e;border-color:#fcd34d}.btn.small{flex:unset;padding:10px 12px;font-size:12px}
-    .tag-editor{display:flex;gap:8px;margin-top:10px}.tag-editor input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.tag-editor button{padding:10px 12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-    .note-card,.list-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)} .note-card p,.list-card li{font-size:14px;line-height:1.55;color:#374151}.list-card ul{margin:0;padding-left:18px}
-    .viewer-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
-    .viewer-frame{width:100%;height:260px;border:1px solid var(--line);border-radius:18px;background:#f9fafb}
-    .shopping-add{display:flex;gap:8px;margin-top:12px}.shopping-add input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.shopping-add button{padding:10px 12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
-    .list-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}.list-row:first-child{border-top:none;padding-top:0}.list-row button{border:none;background:none;color:var(--accent);font-weight:700;cursor:pointer}.list-row.done .item-text{text-decoration:line-through;color:#9ca3af}
-    .hidden{display:none !important}
-    .suggestion{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;padding:10px 6px;border-top:1px solid var(--line);cursor:pointer}.suggestion:first-child{border-top:none}.suggestion strong{color:var(--ink);display:block;margin-bottom:2px}.suggestion img{width:52px;height:52px;object-fit:cover;border-radius:12px;background:#f3f4f6}.suggestion .sub{font-size:12px;color:var(--muted);line-height:1.35}
+    .top{padding:20px 18px 8px}
+    .hello{font-size:13px;color:var(--muted);margin-bottom:4px}
+    .headline{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin:0 0 10px}
+    .search-row{display:grid;grid-template-columns:1fr 120px;gap:10px}
+    .search,.sort{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;font-size:15px;color:var(--ink);width:100%;box-shadow:var(--shadow)}
+    #searchSuggestions{display:none;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:8px 12px}
+    #searchSuggestions.show{display:block}
+    .suggestion{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:center;padding:10px 6px;border-top:1px solid var(--line);cursor:pointer}
+    .suggestion:first-child{border-top:none}
+    .suggestion img{width:52px;height:52px;object-fit:cover;border-radius:12px;background:#f3f4f6}
+    .suggestion strong{display:block;margin-bottom:2px;font-size:14px}
+    .suggestion .sub{font-size:12px;color:var(--muted);line-height:1.35}
+    .section{padding:8px 18px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:center;margin:10px 0 10px}
+    .section-head h3{margin:0;font-size:20px;letter-spacing:-.02em}
+    .section-head span{font-size:13px;color:var(--accent);font-weight:700}
+    .chips{display:flex;gap:10px;overflow:auto;padding-bottom:2px}
+    .chip{white-space:nowrap;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:#374151;cursor:pointer}
+    .chip.active{background:var(--accent-soft);border-color:#ffd8c9;color:var(--accent)}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+    .stat .label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
+    .stat .value{font-size:20px;font-weight:800}
+    .stat .sub{font-size:12px;color:var(--muted);margin-top:4px}
+    .recipe-list{display:grid;gap:14px}
+    .recipe-card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+    .recipe-card img{width:100%;height:220px;object-fit:cover;display:block;background:#f3f4f6}
+    .recipe-body{padding:16px}
+    .pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+    .pill{padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.02em}
+    .pill.type{background:var(--accent-soft);color:var(--accent)}
+    .pill.status{background:#eff6ff;color:var(--blue)}
+    .pill.favorite{background:#fef3c7;color:#b45309}
+    .pill.tag{background:#f3f4f6;color:#374151}
+    .recipe-title{font-size:22px;font-weight:800;line-height:1.15;letter-spacing:-.02em;margin-bottom:8px}
+    .meta{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px}
+    .desc{font-size:14px;line-height:1.55;color:#374151;margin-bottom:14px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{flex:1;padding:12px 14px;border-radius:16px;font-weight:800;text-align:center;font-size:14px;border:1px solid var(--line);background:#fff;cursor:pointer}
+    .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .btn.favorite-on{background:#fef3c7;color:#92400e;border-color:#fcd34d}
+    .tag-editor{display:flex;gap:8px;margin-top:10px}
+    .tag-editor input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+    .tag-editor button{padding:10px 12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+    .note-card,.list-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow)}
+    .note-card p,.list-card li{font-size:14px;line-height:1.55;color:#374151}
+    .shopping-add{display:flex;gap:8px;margin-top:12px}
+    .shopping-add input{flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:12px}
+    .shopping-add button{padding:10px 12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+    .list-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line)}
+    .list-row:first-child{border-top:none;padding-top:0}
+    .list-row button{border:none;background:none;color:var(--accent);font-weight:700;cursor:pointer}
+    .list-row.done .item-text{text-decoration:line-through;color:#9ca3af}
     .bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(448px,calc(100% - 20px));background:rgba(255,255,255,.92);backdrop-filter:blur(14px);border:1px solid rgba(229,231,235,.85);border-radius:24px;box-shadow:0 12px 30px rgba(17,24,39,.1);display:grid;grid-template-columns:repeat(4,1fr);padding:10px 8px;z-index:10}
-    .nav-item{background:none;border:none;text-align:center;font-size:11px;color:var(--muted);font-weight:700;cursor:pointer}.nav-item .icon{display:block;font-size:18px;margin-bottom:4px}.nav-item.active{color:var(--accent)}
+    .nav-item{background:none;border:none;text-align:center;font-size:11px;color:var(--muted);font-weight:700;cursor:pointer}
+    .nav-item .icon{display:block;font-size:18px;margin-bottom:4px}
+    .nav-item.active{color:var(--accent)}
+    .hidden{display:none !important}
   </style>
 </head>
 <body>
@@ -51,28 +89,27 @@
           <option value="title-desc">Z–A</option>
         </select>
       </div>
+      <div id="searchSuggestions"></div>
     </div>
-    </div>
-      <div id="searchSuggestions" class="card hidden" style="margin-top:12px;padding:12px 14px;border-radius:18px;"></div>
 
-    <section class="section" id="browseSection">
-      <div class="section-head"><h3>Browse</h3><span id="filterSummary">View all</span></div>
-      <div class="chips" id="chipBar"></div>
+    <section class="section" id="quickSection">
+      <div class="stats">
+        <div class="stat"><div class="label">Recipes</div><div class="value" id="recipeCount">6</div><div class="sub">Saved so far</div></div>
+        <div class="stat"><div class="label">Favorites</div><div class="value" id="favoritesCount">1</div><div class="sub">Your keepers</div></div>
+        <div class="stat"><div class="label">Shopping</div><div class="value">Ready</div><div class="sub">Built into recipes</div></div>
+      </div>
     </section>
 
-    <section class="section" id="statsSection">
-      <div class="stats">
-        <div class="stat"><div class="label">Favorites</div><div class="value" id="favoritesCount">1</div><div class="sub">Saved keeper</div></div>
-        <div class="stat"><div class="label">Want to try</div><div class="value">6</div><div class="sub">Queued up</div></div>
-        <div class="stat"><div class="label">Collections</div><div class="value">4</div><div class="sub">Soup + chicken + drinks + noodles</div></div>
-      </div>
+    <section class="section" id="browseSection">
+      <div class="section-head"><h3>Browse</h3><span id="filterSummary">Browse library</span></div>
+      <div class="chips" id="chipBar"></div>
     </section>
 
     <section class="section" id="recipesSection">
       <div class="section-head"><h3>Saved recipes</h3><span>Tap controls below</span></div>
       <div class="recipe-list" id="recipeList">
-        <article class="recipe-card" data-id="miso-cod" data-title="Miso Cod" data-saved="2026-03-24" data-search="scallion oil noodles spring onion garlic soy sauce dark soy sugar noodle chinese savory" data-tags="Noodles,Chinese,Savory">
-          <a href="https://www.instagram.com/reel/DWPw8HqjogA/?igsh=MXUwYWpsMHhmYWp3ZA==" target="_blank" rel="noopener"><img src="./recipe-images/anti-cancer-juice.jpg" alt="Miso Cod" /></a>
+        <article class="recipe-card" data-id="miso-cod" data-title="Miso Cod" data-saved="2026-03-24" data-search="miso cod seafood japanese inspired glaze cod fish miso" data-tags="Seafood,Japanese-inspired,Baked">
+          <a href="https://www.instagram.com/reel/DWPw8HqjogA/?igsh=MXUwYWpsMHhmYWp3ZA==" target="_blank" rel="noopener"><img src="./recipe-images/miso-cod.jpg" alt="Miso Cod" /></a>
           <div class="recipe-body">
             <div class="pills">
               <div class="pill type">Seafood</div>
@@ -86,122 +123,33 @@
               <a class="btn primary" href="./recipes/miso-cod.html">Open recipe</a>
               <button class="btn favorite-toggle">Favorite</button>
             </div>
-            <div class="tag-editor">
-              <input type="text" placeholder="Add tag" />
-              <button>Add tag</button>
-            </div>
+            <div class="tag-editor"><input type="text" placeholder="Add tag" /><button>Add tag</button></div>
           </div>
         </article>
 
         <article class="recipe-card" data-id="anti-cancer-juice" data-title="Anti-Cancer Juice" data-saved="2026-03-24" data-search="anti cancer juice cucumber beet ginger broccoli stalk carrots celery apple lemon pineapple cortney campbell anticancermom drink wellness" data-tags="Drink,Juice,Wellness">
           <a href="https://www.instagram.com/reel/DMa615axXjU/?igsh=MW96bnFqZ3N2bHhwYw==" target="_blank" rel="noopener"><img src="./recipe-images/anti-cancer-juice.jpg" alt="Anti-Cancer Juice" /></a>
-          <div class="recipe-body">
-            <div class="pills">
-              <div class="pill type">Drink</div>
-              <div class="pill status">Want to try</div>
-              <div class="pill tag">Wellness</div>
-            </div>
-            <div class="recipe-title">Anti-Cancer Juice</div>
-            <div class="meta">Cortney Campbell · Wellness Juice · Saved Mar 24</div>
-            <div class="desc">A produce-heavy juice with cucumber, beet, ginger, broccoli stalk, carrots, celery, apple, lemon, and pineapple.</div>
-            <div class="actions">
-              <a class="btn primary" href="./recipes/anti-cancer-juice.html">Open recipe</a>
-              <button class="btn favorite-toggle">Favorite</button>
-            </div>
-            <div class="tag-editor">
-              <input type="text" placeholder="Add tag (e.g. detox, morning)" />
-              <button>Add tag</button>
-            </div>
-          </div>
+          <div class="recipe-body"><div class="pills"><div class="pill type">Drink</div><div class="pill status">Want to try</div><div class="pill tag">Wellness</div></div><div class="recipe-title">Anti-Cancer Juice</div><div class="meta">Cortney Campbell · Wellness Juice · Saved Mar 24</div><div class="desc">A produce-heavy juice with cucumber, beet, ginger, broccoli stalk, carrots, celery, apple, lemon, and pineapple.</div><div class="actions"><a class="btn primary" href="./recipes/anti-cancer-juice.html">Open recipe</a><button class="btn favorite-toggle">Favorite</button></div><div class="tag-editor"><input type="text" placeholder="Add tag" /><button>Add tag</button></div></div>
         </article>
 
-        <article class="recipe-card" data-id="green-juice-7-day" data-title="Wellness Juice Batch" data-saved="2026-03-24" data-search="green juice 7 day batch pineapple spinach lemons cucumbers kale ginger jeanette velasco shane drink batch juice" data-tags="Drink,Juice,Batch Prep">
-          <a href="https://www.instagram.com/reel/CnKhoxBprKG/?igsh=MW53c2hzNW5pbWJ4NQ==" target="_blank" rel="noopener"><img src="./recipe-images/green-juice-7-day.jpg" alt="Green Juice 7-Day Batch" /></a>
-          <div class="recipe-body">
-            <div class="pills">
-              <div class="pill type">Drink</div>
-              <div class="pill status">Want to try</div>
-              <div class="pill tag">Batch Prep</div>
-            </div>
-            <div class="recipe-title">Wellness Juice Batch</div>
-            <div class="meta">Wellness Juice Reel · Saved Mar 24</div>
-            <div class="desc">A saved wellness-juice reel entry. The original mapping was too specific, so this card has been made more neutral until the exact recipe is re-confirmed.</div>
-            <div class="actions">
-              <a class="btn primary" href="./recipes/green-juice-7-day-batch.html">Open recipe</a>
-              <button class="btn favorite-toggle">Favorite</button>
-            </div>
-            <div class="tag-editor">
-              <input type="text" placeholder="Add tag" />
-              <button>Add tag</button>
-            </div>
-          </div>
+        <article class="recipe-card" data-id="green-juice-7-day" data-title="Wellness Juice Batch" data-saved="2026-03-24" data-search="wellness juice batch pineapple spinach lemons cucumbers kale ginger drink juice batch prep" data-tags="Drink,Juice,Batch Prep">
+          <a href="https://www.instagram.com/reel/CnKhoxBprKG/?igsh=MW53c2hzNW5pbWJ4NQ==" target="_blank" rel="noopener"><img src="./recipe-images/green-juice-7-day.jpg" alt="Wellness Juice Batch" /></a>
+          <div class="recipe-body"><div class="pills"><div class="pill type">Drink</div><div class="pill status">Want to try</div><div class="pill tag">Batch Prep</div></div><div class="recipe-title">Wellness Juice Batch</div><div class="meta">Wellness Juice Reel · Saved Mar 24</div><div class="desc">A saved wellness-juice reel entry. The original mapping was too specific, so this card stays intentionally neutral.</div><div class="actions"><a class="btn primary" href="./recipes/green-juice-7-day-batch.html">Open recipe</a><button class="btn favorite-toggle">Favorite</button></div><div class="tag-editor"><input type="text" placeholder="Add tag" /><button>Add tag</button></div></div>
         </article>
 
         <article class="recipe-card" data-id="green-juice" data-title="Green Juice" data-saved="2026-03-24" data-search="green juice kale spinach cucumbers celery apples lemons ginger tina nunez drink wellness" data-tags="Drink,Juice,Wellness">
           <a href="https://www.instagram.com/reel/DVGsWMMEWr9/?igsh=MXI3MXQ1YjljcXV3Ng==" target="_blank" rel="noopener"><img src="./recipe-images/green-juice.jpg" alt="Green Juice" /></a>
-          <div class="recipe-body">
-            <div class="pills">
-              <div class="pill type">Drink</div>
-              <div class="pill status">Want to try</div>
-              <div class="pill tag">Wellness</div>
-            </div>
-            <div class="recipe-title">Green Juice</div>
-            <div class="meta">Tina Nunez · Wellness Drink · Saved Mar 24</div>
-            <div class="desc">A fresh green juice with kale, spinach, cucumbers, celery, apples, lemons, and ginger.</div>
-            <div class="actions">
-              <a class="btn primary" href="./recipes/green-juice.html">Open recipe</a>
-              <button class="btn favorite-toggle">Favorite</button>
-            </div>
-            <div class="tag-editor">
-              <input type="text" placeholder="Add tag" />
-              <button>Add tag</button>
-            </div>
-          </div>
+          <div class="recipe-body"><div class="pills"><div class="pill type">Drink</div><div class="pill status">Want to try</div><div class="pill tag">Wellness</div></div><div class="recipe-title">Green Juice</div><div class="meta">Tina Nunez · Wellness Drink · Saved Mar 24</div><div class="desc">A fresh green juice with kale, spinach, cucumbers, celery, apples, lemons, and ginger.</div><div class="actions"><a class="btn primary" href="./recipes/green-juice.html">Open recipe</a><button class="btn favorite-toggle">Favorite</button></div><div class="tag-editor"><input type="text" placeholder="Add tag" /><button>Add tag</button></div></div>
         </article>
 
         <article class="recipe-card" data-id="three-color-eggs" data-title="Three-Color Eggs with Bok Choy & Tofu Soup" data-saved="2026-03-23" data-search="three color eggs bok choy tofu soup cantonese feibaba tofu eggs scallops ginger soup" data-tags="Soup,Cantonese,Tofu">
           <a href="https://www.instagram.com/reel/DWQKtXhDGus/?igsh=cHA4YXd6cDRvM3Jy" target="_blank" rel="noopener"><img src="./recipe-images/three-color-eggs-bok-choy-tofu-soup.jpg" alt="Three-Color Eggs with Bok Choy & Tofu Soup" /></a>
-          <div class="recipe-body">
-            <div class="pills">
-              <div class="pill type">Soup</div>
-              <div class="pill status">Want to try</div>
-              <div class="pill tag">Cantonese</div>
-            </div>
-            <div class="recipe-title">Three-Color Eggs with Bok Choy & Tofu Soup</div>
-            <div class="meta">FeiBaBa · Cantonese · Saved Mar 23</div>
-            <div class="desc">A comforting Cantonese-style soup with bok choy, soft tofu, century egg, salted egg, regular egg, ginger, broth, and dried scallops.</div>
-            <div class="actions">
-              <a class="btn primary" href="./recipes/three-color-eggs-bok-choy-tofu-soup.html">Open recipe</a>
-              <button class="btn favorite-toggle">Favorite</button>
-            </div>
-            <div class="tag-editor">
-              <input type="text" placeholder="Add tag" />
-              <button>Add tag</button>
-            </div>
-          </div>
+          <div class="recipe-body"><div class="pills"><div class="pill type">Soup</div><div class="pill status">Want to try</div><div class="pill tag">Cantonese</div></div><div class="recipe-title">Three-Color Eggs with Bok Choy & Tofu Soup</div><div class="meta">FeiBaBa · Cantonese · Saved Mar 23</div><div class="desc">A comforting Cantonese-style soup with bok choy, soft tofu, century egg, salted egg, regular egg, ginger, broth, and dried scallops.</div><div class="actions"><a class="btn primary" href="./recipes/three-color-eggs-bok-choy-tofu-soup.html">Open recipe</a><button class="btn favorite-toggle">Favorite</button></div><div class="tag-editor"><input type="text" placeholder="Add tag" /><button>Add tag</button></div></div>
         </article>
 
         <article class="recipe-card" data-id="lap-cheong-steamed-chicken" data-title="Lap Cheong Steamed Chicken" data-saved="2026-03-23" data-search="lap cheong steamed chicken chinese sharilyn black fungus shiitake ginger juice chicken steamed chinese" data-tags="Chicken,Chinese,Steamed">
           <a href="https://www.instagram.com/reel/DVNRAH7kZn1/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener"><img src="./recipe-images/lap-cheong-steamed-chicken.jpg" alt="Lap Cheong Steamed Chicken" /></a>
-          <div class="recipe-body">
-            <div class="pills">
-              <div class="pill type">Chicken</div>
-              <div class="pill status">Want to try</div>
-              <div class="pill favorite">Favorite</div>
-              <div class="pill tag">Steamed</div>
-            </div>
-            <div class="recipe-title">Lap Cheong Steamed Chicken</div>
-            <div class="meta">Sharilyn · Chinese · Saved Mar 23</div>
-            <div class="desc">A nostalgic home-style steamed chicken dish using Chinese sausage, black fungus, shiitake mushrooms, ginger juice, and a savory marinade.</div>
-            <div class="actions">
-              <a class="btn primary" href="./recipes/lap-cheong-steamed-chicken.html">Open recipe</a>
-              <button class="btn favorite-toggle favorite-on">Favorited</button>
-            </div>
-            <div class="tag-editor">
-              <input type="text" placeholder="Add tag" />
-              <button>Add tag</button>
-            </div>
-          </div>
+          <div class="recipe-body"><div class="pills"><div class="pill type">Chicken</div><div class="pill status">Want to try</div><div class="pill favorite">Favorite</div><div class="pill tag">Steamed</div></div><div class="recipe-title">Lap Cheong Steamed Chicken</div><div class="meta">Sharilyn · Chinese · Saved Mar 23</div><div class="desc">A nostalgic home-style steamed chicken dish using Chinese sausage, black fungus, shiitake mushrooms, ginger juice, and a savory marinade.</div><div class="actions"><a class="btn primary" href="./recipes/lap-cheong-steamed-chicken.html">Open recipe</a><button class="btn favorite-toggle favorite-on">Favorited</button></div><div class="tag-editor"><input type="text" placeholder="Add tag" /><button>Add tag</button></div></div>
         </article>
       </div>
     </section>
@@ -217,7 +165,7 @@
       </div>
       <div style="height:12px"></div>
       <div class="note-card">
-        <p><strong>What this section does:</strong> this is now your manual grocery list for saved recipes. Add items you want to buy, remove them when done, and keep it as a lightweight shopping helper instead of a placeholder block. The reel viewer opens the recipe’s Instagram page inside the app when the site allows it; if Instagram blocks embedding, the reel still opens in a new tab.</p>
+        <p><strong>What this section does:</strong> this is your shared grocery list for saved recipes. Add items from recipe pages, check them off when purchased, and clear the list when you want to start over.</p>
       </div>
     </section>
   </div>
@@ -253,8 +201,7 @@
     let favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY) || '{}');
     let shopping = JSON.parse(localStorage.getItem(SHOPPING_KEY) || JSON.stringify([
       {text:'bok choy', done:false},{text:'soft tofu', done:false},{text:'century eggs', done:false},{text:'salted egg', done:false},{text:'dried scallops', done:false},{text:'ginger', done:false},{text:'chicken thighs', done:false},{text:'lap cheong', done:false}
-    ]));
-    shopping = shopping.map(item => typeof item === 'string' ? {text:item, done:false} : item);
+    ])).map(item => typeof item === 'string' ? {text:item, done:false} : item);
     let extraTags = JSON.parse(localStorage.getItem(TAGS_KEY) || '{}');
 
     function saveState() {
@@ -325,7 +272,7 @@
       const tags = new Set(['All','Favorites']);
       recipeCards.forEach(card => {
         (card.dataset.tags || '').split(',').map(s=>s.trim()).filter(Boolean).forEach(t => tags.add(t));
-        ((extraTags[card.dataset.id]||[])).forEach(t => tags.add(t));
+        (extraTags[card.dataset.id] || []).forEach(t => tags.add(t));
       });
       const ordered = ['All','Favorites', ...[...tags].filter(t => !['All','Favorites'].includes(t)).sort()];
       chipBar.innerHTML = ordered.map(tag => `<button class="chip ${((currentFilter==='all'&&tag==='All')||(currentFilter==='favorite'&&tag==='Favorites')||(currentFilter===tag))?'active':''}" data-filter="${tag==='All'?'all':tag==='Favorites'?'favorite':tag}">${tag}</button>`).join('');
@@ -341,22 +288,22 @@
 
     function renderSuggestions() {
       const q = searchBox.value.toLowerCase().trim();
-      if (!q) { searchSuggestions.classList.add('hidden'); searchSuggestions.innerHTML=''; return; }
+      if (!q) { searchSuggestions.classList.remove('show'); searchSuggestions.innerHTML=''; return; }
       const matches = recipeCards.filter(card => {
         const id = card.dataset.id;
         const hay = (card.dataset.title + ' ' + card.dataset.search + ' ' + (extraTags[id]||[]).join(' ')).toLowerCase();
         return hay.includes(q);
       }).slice(0,5);
-      if (!matches.length) { searchSuggestions.classList.add('hidden'); searchSuggestions.innerHTML=''; return; }
+      if (!matches.length) { searchSuggestions.classList.remove('show'); searchSuggestions.innerHTML=''; return; }
       searchSuggestions.innerHTML = matches.map(card => {
         const img = card.querySelector('img')?.getAttribute('src') || '';
         return `<div class="suggestion" data-jump="${card.dataset.id}"><img src="${img}" alt="${card.dataset.title}" /><div><strong>${card.dataset.title}</strong><div class="sub">${card.dataset.tags || ''}</div></div></div>`;
       }).join('');
-      searchSuggestions.classList.remove('hidden');
+      searchSuggestions.classList.add('show');
       [...searchSuggestions.querySelectorAll('[data-jump]')].forEach(el => {
         el.onclick = () => {
           const card = recipeCards.find(c => c.dataset.id === el.dataset.jump);
-          if (card) { card.scrollIntoView({behavior:'smooth', block:'start'}); }
+          if (card) card.scrollIntoView({behavior:'smooth', block:'start'});
         };
       });
     }
@@ -366,11 +313,11 @@
       let visibleCount = 0;
       recipeCards.forEach(card => {
         const id = card.dataset.id;
-        const hay = (card.dataset.search + ' ' + (extraTags[id] || []).join(' ')).toLowerCase();
+        const hay = (card.dataset.search + ' ' + card.dataset.title + ' ' + (extraTags[id] || []).join(' ')).toLowerCase();
         const matchesSearch = !q || hay.includes(q);
         let matchesFilter = currentFilter === 'all';
         if (currentFilter === 'favorite') matchesFilter = !!favorites[id];
-        else if (!matchesFilter) matchesFilter = hay.includes(currentFilter.toLowerCase()) || card.dataset.tags.toLowerCase().includes(currentFilter.toLowerCase());
+        else if (!matchesFilter) matchesFilter = hay.includes(currentFilter.toLowerCase()) || (card.dataset.tags || '').toLowerCase().includes(currentFilter.toLowerCase());
         const show = matchesSearch && matchesFilter;
         card.classList.toggle('hidden', !show);
         if (show) visibleCount++;
@@ -401,6 +348,7 @@
         favorites[id] = !favorites[id];
         saveState();
         updateFavoriteUI(card);
+        buildChips();
         applyFilters();
       };
       const input = card.querySelector('.tag-editor input');
@@ -414,6 +362,8 @@
         input.value = '';
         saveState();
         renderTags(card);
+        buildChips();
+        renderSuggestions();
         applyFilters();
       };
     });
