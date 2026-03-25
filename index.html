@@ -201,8 +201,8 @@
       <div class="list-card">
         <div id="shoppingList"></div>
         <div class="shopping-add">
-          <input id="shoppingInput" type="text" placeholder="Add ingredient or grocery item" />
-          <button id="addShoppingBtn">Add</button>
+          <input id="shoppingInput" type="text" placeholder="Shopping list is managed from recipes" disabled />
+          <button id="addShoppingBtn">Clear List</button>
         </div>
       </div>
       <div style="height:12px"></div>
@@ -376,10 +376,7 @@
     });
 
     addShoppingBtn.onclick = () => {
-      const value = shoppingInput.value.trim();
-      if (!value) return;
-      shopping.push({text:value, done:false});
-      shoppingInput.value = '';
+      shopping = [];
       saveState();
       renderShopping();
     };
