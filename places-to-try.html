@@ -22,6 +22,11 @@
     .subhead{font-size:15px;line-height:1.6;color:#374151;margin:0}
     .section{padding:8px 18px 0}
     .card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{white-space:nowrap;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:#374151;cursor:pointer}
+    .chip.active{background:#111827;border-color:#111827;color:#fff}
+    .place-list{display:grid;gap:14px}
+    .hidden{display:none !important}
     .placeholder{display:grid;gap:14px}
     .pill-row{display:flex;gap:8px;flex-wrap:wrap}
     .pill{padding:8px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:12px;font-weight:800}
@@ -41,7 +46,21 @@
 
     
     <section class="section">
-      <div class="card" style="padding:0;overflow:hidden">
+      <div class="card" style="display:grid;gap:12px">
+        <div>
+          <div style="font-size:12px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Location</div>
+          <div class="chips" id="locationChipBar"></div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Cuisine</div>
+          <div class="chips" id="cuisineChipBar"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="place-list" id="placeList">
+      <div class="card place-card" data-location="Bellevue" data-cuisine="Thai" style="padding:0;overflow:hidden">
         <a href="https://www.instagram.com/reel/DWUytABASTT/?igsh=MWo2aHJna240MHUzeg==" target="_blank" rel="noopener"><img src="./restaurant-images/place-1.jpg" alt="All Thai Bellevue" style="width:100%;height:220px;object-fit:cover;display:block;background:#f3f4f6" /></a>
         <div style="padding:18px">
           <div class="pill-row" style="margin-bottom:10px">
@@ -89,5 +108,47 @@
       </div>
     </section>
   </div>
+
+  <script>
+    const locationChipBar = document.getElementById('locationChipBar');
+    const cuisineChipBar = document.getElementById('cuisineChipBar');
+    const placeCards = [...document.querySelectorAll('.place-card')];
+    let currentLocation = 'all';
+    let currentCuisine = 'all';
+
+    function buildPlaceFilters() {
+      const locations = ['All', ...new Set(placeCards.map(card => card.dataset.location).filter(Boolean))];
+      const cuisines = ['All', ...new Set(placeCards.map(card => card.dataset.cuisine).filter(Boolean))];
+
+      locationChipBar.innerHTML = locations.map(v => `<button class="chip ${((currentLocation==='all'&&v==='All')||currentLocation===v)?'active':''}" data-location="${v==='All'?'all':v}">${v}</button>`).join('');
+      cuisineChipBar.innerHTML = cuisines.map(v => `<button class="chip ${((currentCuisine==='all'&&v==='All')||currentCuisine===v)?'active':''}" data-cuisine="${v==='All'?'all':v}">${v}</button>`).join('');
+
+      locationChipBar.querySelectorAll('.chip').forEach(chip => {
+        chip.onclick = () => {
+          currentLocation = chip.dataset.location;
+          buildPlaceFilters();
+          applyPlaceFilters();
+        };
+      });
+      cuisineChipBar.querySelectorAll('.chip').forEach(chip => {
+        chip.onclick = () => {
+          currentCuisine = chip.dataset.cuisine;
+          buildPlaceFilters();
+          applyPlaceFilters();
+        };
+      });
+    }
+
+    function applyPlaceFilters() {
+      placeCards.forEach(card => {
+        const matchesLocation = currentLocation === 'all' || card.dataset.location === currentLocation;
+        const matchesCuisine = currentCuisine === 'all' || card.dataset.cuisine === currentCuisine;
+        card.classList.toggle('hidden', !(matchesLocation && matchesCuisine));
+      });
+    }
+
+    buildPlaceFilters();
+    applyPlaceFilters();
+  </script>
 </body>
 </html>
