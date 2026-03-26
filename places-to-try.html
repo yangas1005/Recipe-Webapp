@@ -32,11 +32,11 @@
     .place-list.view-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .place-list.view-compact{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .place-list.view-list{grid-template-columns:1fr;gap:10px}
-    .place-list.view-grid .place-card,.place-list.view-compact .place-card,.place-list.view-list .place-card{border-radius:20px;height:auto}
+    .place-list.view-grid .place-card,.place-list.view-compact .place-card,.place-list.view-list .place-card{border-radius:20px;display:flex;flex-direction:column;overflow:hidden}
     .place-list.view-grid .place-thumb{height:132px !important}
     .place-list.view-compact .place-thumb{height:96px !important}
-    .place-list.view-grid .place-body{padding:12px !important;display:flex;flex-direction:column;flex:1;min-height:0}
-    .place-list.view-compact .place-body{padding:10px !important;display:flex;flex-direction:column;flex:1;min-height:0}
+    .place-list.view-grid .place-body{padding:12px !important;display:flex;flex-direction:column;flex:1}
+    .place-list.view-compact .place-body{padding:10px !important;display:flex;flex-direction:column;flex:1}
     .place-list.view-grid .place-title{font-size:16px !important;margin-bottom:6px !important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
     .place-list.view-compact .place-title{font-size:14px !important;margin-bottom:4px !important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
     .place-list.view-grid .place-summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:58px}
