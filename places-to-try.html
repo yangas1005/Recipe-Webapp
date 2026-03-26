@@ -35,8 +35,8 @@
     .place-list.view-grid .place-card,.place-list.view-compact .place-card,.place-list.view-list .place-card{border-radius:20px}
     .place-list.view-grid .place-thumb{height:132px !important}
     .place-list.view-compact .place-thumb{height:96px !important}
-    .place-list.view-grid .place-body{padding:12px !important}
-    .place-list.view-compact .place-body{padding:10px !important}
+    .place-list.view-grid .place-body{padding:12px !important;display:flex;flex-direction:column;flex:1}
+    .place-list.view-compact .place-body{padding:10px !important;display:flex;flex-direction:column;flex:1}
     .place-list.view-grid .place-title{font-size:16px !important;margin-bottom:6px !important}
     .place-list.view-compact .place-title{font-size:14px !important;margin-bottom:4px !important}
     .place-list.view-grid .place-summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
@@ -44,6 +44,10 @@
     .place-list.view-grid .pill-row,.place-list.view-compact .pill-row{gap:6px !important;margin-bottom:8px !important}
     .place-list.view-grid .pill,.place-list.view-compact .pill{font-size:10px !important;padding:6px 8px !important}
     .place-list.view-compact .pill-row .pill:nth-child(n+3){display:none}
+    .place-list.view-grid .place-actions,.place-list.view-compact .place-actions{margin-top:auto}
+    .place-list.view-grid .place-actions .cta,.place-list.view-compact .place-actions .cta{flex:1;text-align:center}
+    .place-list.view-compact .place-actions{gap:8px}
+    .place-list.view-compact .place-actions .cta{padding:10px 12px !important;font-size:12px}
     .place-list.view-list .place-card{display:grid;grid-template-columns:84px 1fr;align-items:stretch}
     .place-list.view-list .place-thumb{width:84px !important;height:100% !important;min-height:104px !important}
     .place-list.view-list .place-body{padding:12px !important;display:flex;flex-direction:column;flex:1}
@@ -101,7 +105,7 @@
           <h2 class="place-title" style="margin:0 0 8px;font-size:24px">Sushi by Scratch</h2>
           <p class="muted" style="margin:0 0 10px">2331 6th Ave, Seattle, WA 98121</p>
           <p class="muted place-summary" style="margin:0 0 14px">A speakeasy-style omakase spot serving 17+ courses, with complimentary cocktail and canapés before the reservation and optional pairings during service.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="place-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
             <a class="cta" href="./restaurants/sushi-by-scratch-seattle.html" style="margin-top:0">Open place</a>
             <a class="cta" href="https://www.google.com/maps/search/?api=1&query=2331+6th+Ave%2C+Seattle%2C+WA+98121" target="_blank" rel="noopener" style="margin-top:0;background:#fff;color:#111827;border:1px solid #e5e7eb">Open map</a>
           </div>
@@ -118,7 +122,7 @@
           <h2 class="place-title" style="margin:0 0 8px;font-size:24px">Top 5 Local Foods in Seattle — January 2026</h2>
           <p class="muted" style="margin:0 0 10px">Multiple Seattle locations</p>
           <p class="muted place-summary" style="margin:0 0 14px">A Seattle food roundup featuring the creator’s top five local foods eaten during January 2026 after visiting 20+ places that month.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="place-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
             <a class="cta" href="./restaurants/top-5-local-foods-seattle-january-2026.html" style="margin-top:0">Open place</a>
             <a class="cta" href="https://www.google.com/maps/search/?api=1&query=Seattle+restaurants" target="_blank" rel="noopener" style="margin-top:0;background:#fff;color:#111827;border:1px solid #e5e7eb">Open map</a>
           </div>
@@ -135,7 +139,7 @@
           <h2 class="place-title" style="margin:0 0 8px;font-size:24px">Rainbrew</h2>
           <p class="muted" style="margin:0 0 10px">Woodinville, WA</p>
           <p class="muted place-summary" style="margin:0 0 14px">A Seattle Times feature on Rainbrew, a Woodinville producer making makgeolli and other Korean rice-wine products, highlighted as a distinctive local business.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="place-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
             <a class="cta" href="./restaurants/rainbrew-woodinville.html" style="margin-top:0">Open place</a>
             <a class="cta" href="https://www.google.com/maps/search/?api=1&query=Rainbrew+Woodinville+WA" target="_blank" rel="noopener" style="margin-top:0;background:#fff;color:#111827;border:1px solid #e5e7eb">Open map</a>
           </div>
@@ -152,7 +156,7 @@
           <h2 class="place-title" style="margin:0 0 8px;font-size:24px">Ginger & Scallion</h2>
           <p class="muted" style="margin:0 0 10px">500 NW 65th St, Seattle, WA 98117</p>
           <p class="muted place-summary" style="margin:0 0 14px">A small Seattle spot praised for its Wagyu Khao Soi, described as rich, creamy, deeply umami, and worth the line.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="place-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
             <a class="cta" href="./restaurants/ginger-and-scallion-seattle.html" style="margin-top:0">Open place</a>
             <a class="cta" href="https://www.google.com/maps/search/?api=1&query=500+NW+65th+St%2C+Seattle%2C+WA+98117" target="_blank" rel="noopener" style="margin-top:0;background:#fff;color:#111827;border:1px solid #e5e7eb">Open map</a>
           </div>
@@ -169,7 +173,7 @@
           <h2 class="place-title" style="margin:0 0 8px;font-size:24px">ā mā chicken rice</h2>
           <p class="muted" style="margin:0 0 10px">7405 168th Ave NE Suite 140, Redmond, WA</p>
           <p class="muted place-summary" style="margin:0 0 14px">A Redmond spot highlighted for comforting, high-quality chicken rice plates, Thai iced tea, and a simple home-cooked feel.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="place-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
             <a class="cta" href="./restaurants/ama-chicken-rice-redmond.html" style="margin-top:0">Open place</a>
             <a class="cta" href="https://www.google.com/maps/search/?api=1&query=7405+168th+Ave+NE+Suite+140%2C+Redmond%2C+WA" target="_blank" rel="noopener" style="margin-top:0;background:#fff;color:#111827;border:1px solid #e5e7eb">Open map</a>
           </div>
@@ -187,7 +191,7 @@
           <h2 class="place-title" style="margin:0 0 8px;font-size:24px">All Thai</h2>
           <p class="muted" style="margin:0 0 10px">1645 140th Ave NE B-9, Bellevue</p>
           <p class="muted place-summary" style="margin:0 0 14px">A Bellevue Thai spot saved from @slurpseattle for its luxury-leaning vibe and standout dishes like the sampler, seafood coconut meat, Koi Soi, and mango sticky rice.</p>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="place-actions" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto">
             <a class="cta" href="./restaurants/all-thai-bellevue.html" style="margin-top:0">Open place</a>
             <a class="cta" href="https://www.google.com/maps/search/?api=1&query=1645+140th+Ave+NE+B-9%2C+Bellevue%2C+WA" target="_blank" rel="noopener" style="margin-top:0;background:#fff;color:#111827;border:1px solid #e5e7eb">Open map</a>
           </div>
