@@ -37,9 +37,12 @@
     .place-list.view-compact .place-thumb{height:96px !important}
     .place-list.view-grid .place-body{padding:12px !important;display:flex;flex-direction:column;flex:1;min-height:100%}
     .place-list.view-compact .place-body{padding:10px !important;display:flex;flex-direction:column;flex:1;min-height:100%}
-    .place-list.view-grid .place-title{font-size:16px !important;margin-bottom:6px !important}
-    .place-list.view-compact .place-title{font-size:14px !important;margin-bottom:4px !important}
+    .place-list.view-grid .place-title{font-size:16px !important;margin-bottom:6px !important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+    .place-list.view-compact .place-title{font-size:14px !important;margin-bottom:4px !important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
     .place-list.view-grid .place-summary{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:58px}
+    .place-list.view-grid .muted:not(.place-summary){min-height:36px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .place-list.view-compact .pill-row{min-height:28px}
+    .place-list.view-grid .place-actions,.place-list.view-compact .place-actions{min-height:44px}
     .place-list.view-compact .place-summary{display:none}
     .place-list.view-grid .pill-row,.place-list.view-compact .pill-row{gap:6px !important;margin-bottom:8px !important}
     .place-list.view-grid .pill,.place-list.view-compact .pill{font-size:10px !important;padding:6px 8px !important}
