@@ -43,7 +43,7 @@
     .stat .value{font-size:20px;font-weight:800}
     .stat .sub{font-size:12px;color:var(--muted);margin-top:4px}
     .recipe-list{display:grid;gap:14px}
-    .recipe-card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;height:100%}
+    .recipe-card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;height:auto}
     .recipe-card img{width:100%;height:220px;object-fit:cover;display:block;background:#f3f4f6}
     .view-switcher{display:flex;gap:8px;overflow:auto;padding-bottom:2px;margin-bottom:12px}
     .view-btn{white-space:nowrap;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:#374151;cursor:pointer;box-shadow:var(--shadow)}
@@ -51,11 +51,11 @@
     .recipe-list.view-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .recipe-list.view-compact{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
     .recipe-list.view-list{grid-template-columns:1fr;gap:10px}
-    .recipe-list.view-grid .recipe-card,.recipe-list.view-compact .recipe-card,.recipe-list.view-list .recipe-card{border-radius:20px;height:100%}
+    .recipe-list.view-grid .recipe-card,.recipe-list.view-compact .recipe-card,.recipe-list.view-list .recipe-card{border-radius:20px;height:auto}
     .recipe-list.view-grid .recipe-card img{height:132px}
     .recipe-list.view-compact .recipe-card img{height:96px}
-    .recipe-list.view-grid .recipe-body{padding:12px;display:flex;flex-direction:column;flex:1;min-height:100%}
-    .recipe-list.view-compact .recipe-body{padding:10px;display:flex;flex-direction:column;flex:1;min-height:100%}
+    .recipe-list.view-grid .recipe-body{padding:12px;display:flex;flex-direction:column;flex:1;min-height:0}
+    .recipe-list.view-compact .recipe-body{padding:10px;display:flex;flex-direction:column;flex:1;min-height:0}
     .recipe-list.view-grid .recipe-title{font-size:16px;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
     .recipe-list.view-compact .recipe-title{font-size:14px;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
     .recipe-list.view-grid .meta,.recipe-list.view-grid .desc,.recipe-list.view-grid .tag-editor,.recipe-list.view-grid .actions .favorite-toggle{font-size:12px}
@@ -74,7 +74,7 @@
     .recipe-list.view-compact .actions{display:block;margin-top:auto}
     .recipe-list.view-compact .actions .btn.primary{display:inline-flex !important;width:100%;padding:10px 12px;font-size:12px;align-items:center;justify-content:center}
     .recipe-list.view-list .recipe-card{display:grid;grid-template-columns:84px 1fr;align-items:stretch}
-    .recipe-list.view-list .recipe-card > a{display:block;height:100%}
+    .recipe-list.view-list .recipe-card > a{display:block;height:auto}
     .recipe-list.view-list .recipe-card img{width:84px;height:100%;min-height:104px}
     .recipe-list.view-list .recipe-body{padding:12px;display:flex;flex-direction:column;flex:1}
     .recipe-list.view-list .recipe-title{font-size:16px;margin-bottom:6px}
